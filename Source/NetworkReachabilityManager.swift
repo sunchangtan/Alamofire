@@ -92,7 +92,7 @@ open class NetworkReachabilityManager {
     }
 
     private let reachability: SCNetworkReachability
-    open var previousFlags: SCNetworkReachabilityFlags
+    open var previousFlags: SCNetworkReachabilityFlags?
 
     // MARK: - Initialization
 
@@ -128,7 +128,6 @@ open class NetworkReachabilityManager {
 
     private init(reachability: SCNetworkReachability) {
         self.reachability = reachability
-        self.previousFlags = SCNetworkReachabilityFlags()
     }
 
     deinit {
@@ -157,7 +156,6 @@ open class NetworkReachabilityManager {
         let queueEnabled = SCNetworkReachabilitySetDispatchQueue(reachability, listenerQueue)
 
         listenerQueue.async {
-            self.previousFlags = SCNetworkReachabilityFlags()
             self.notifyListener(self.flags ?? SCNetworkReachabilityFlags())
         }
 
